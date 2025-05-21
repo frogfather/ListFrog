@@ -8,62 +8,53 @@
 import SwiftUI
 
 struct ContentView: View {
-    let labels = ["test1","test2","test3","test4","test5","test6","test7","test8","test9","test10","test11","test12","test13","test14"]
-    @State var cardCount: Int = 4
-    
+    @ObservedObject var viewModel: ListFrogViewModel
     var body: some View {
         VStack {
             ScrollView {
                 cards
             }
-            Spacer()
-            cardCountAdjusters
         }
-        .padding()
     }
     var cards: some View {
         LazyVGrid(columns: [GridItem()]) {
-            ForEach(0..<cardCount, id: \.self) { index in CardView(content: labels[index])
+                ForEach(viewModel.libraryItems) { card in
+                    CardView(card)
+                        .onTapGesture {
+                            viewModel.toggleSelected(item: card)
+                        }
+                        .padding()
             }
         }
-    }
-    var cardCountAdjusters: some View {
-        HStack {
-            cardRemover
-            Spacer()
-            cardAdder
-        }
-        .imageScale(.large)
-        .font(.largeTitle)
-    }
-    
-    func cardCountAdjuster(by offset: Int, symbol: String) -> some View {
-        Button(action: {
-            cardCount += offset
-        }, label: {
-            Image(systemName: symbol)
-        })
-        .disabled(cardCount + offset < 1 || cardCount + offset > labels.count)
-    }
-    
-    var cardRemover: some View {
-        cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
-    }
-    
-    var cardAdder: some View {
-        cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
     }
 }
 
 struct CardView: View {
-    let content: String
+    let content: ListFrogModel.ListFrogItem
+    
+    init(_ content: ListFrogModel.ListFrogItem) {
+        self.content = content
+    }
     
     var body: some View {
         ZStack {
             let base = RoundedRectangle(cornerRadius: 12)
-            base.fill(.white)
+            base.fill(Color(red: 0.9, green: 0.75, blue: 0.7))
             base.strokeBorder(lineWidth: 2)
-            Text(content).font(.largeTitle)
+            HStack {
+                Image(systemName: "checkmark.circle")
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .padding()
+                    .opacity(content.selected ? 0.8 : 0)
+                VStack (alignment: .leading){
+                    Text(content.caption)
+                        .font(.largeTitle)
+                    Text(content.description)
+                        .opacity(0.8)
+                }
+                Spacer()
+            }
         }
     }
 }
@@ -76,5 +67,5 @@ struct CardView: View {
 
 
 #Preview {
-    ContentView()
+    ContentView(viewModel: ListFrogViewModel())
 }

@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct ListFrogApp: App {
+    @StateObject var list = ListFrogViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: list)
         }
     }
 }
