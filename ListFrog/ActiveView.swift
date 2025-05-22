@@ -10,12 +10,33 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var viewModel: ListFrogViewModel
     var body: some View {
-        VStack {
-            ScrollView {
-                cards
+        NavigationView {
+            VStack {
+                NavigationLink (destination: LibraryView()){
+                        Text("Click to navigate")
+                        .frame(width: 300, height: 150, alignment: .center)
+                        .background(.gray)
+                        .foregroundColor(.black)
+                        .cornerRadius(50)
+                    }
+                ScrollView {
+                    cards
+                }
+                Spacer()
+                Button {
+                    viewModel.clearActive()
+                }
+                label: {
+                    Label("Clear all", systemImage: "minus.circle")
+                        .font(.largeTitle)
+                }
+                .buttonStyle(.bordered)
+                .accentColor(.red)
+                .controlSize(.large)
             }
         }
     }
+        
     var cards: some View {
         LazyVGrid(columns: [GridItem()]) {
                 ForEach(viewModel.libraryItems) { card in

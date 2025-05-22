@@ -18,10 +18,10 @@ class ListFrogViewModel: ObservableObject {
     @Published private var listModel: ListFrogModel = createList()
     
     var libraryItems: Array<ListFrogModel.ListFrogItem> {
-        return listModel.items
+        return listModel.cards
     }
     var activeItems: Array<ListFrogModel.ListFrogItem> {
-        return listModel.items.filter({$0.active})
+        return listModel.cards.filter({$0.active})
     }
     func addLibraryItem(item: ListFrogModel.ListFrogItem) {
         listModel.addItem(item: item)
@@ -30,9 +30,13 @@ class ListFrogViewModel: ObservableObject {
         listModel.removeItem(item: item)
     }
     func toggleActive(item: ListFrogModel.ListFrogItem) {
-        listModel.toggleActive(item: item)
+        listModel.toggleActive(item)
     }
     func toggleSelected(item: ListFrogModel.ListFrogItem) {
         listModel.toggleSelect(item)
+    }
+    
+    func clearActive() {
+        print("clear all")
     }
 }
