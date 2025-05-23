@@ -1,46 +1,34 @@
 //
-//  ContentView.swift
+//  ActiveCardView.swift
 //  ListFrog
 //
-//  Created by John Campbell on 19/05/2025.
+//  Created by John Campbell on 23/05/2025.
 //
 
 import SwiftUI
 
-struct ContentView: View {
+struct ActiveView: View {
     @ObservedObject var viewModel: ListFrogViewModel
     var body: some View {
-        NavigationView {
+        if viewModel.activeItems.isEmpty {
             VStack {
-                NavigationLink (destination: LibraryView()){
-                        Text("Click to navigate")
-                        .frame(width: 300, height: 150, alignment: .center)
-                        .background(.gray)
-                        .foregroundColor(.black)
-                        .cornerRadius(50)
-                    }
+                Text("No items selected")
+                Text("Swipe right to view the library")
+                Text("->")
+            }.font(.largeTitle)
+        } else {
+            VStack {
                 ScrollView {
                     cards
                 }
-                Spacer()
-                Button {
-                    viewModel.clearActive()
-                }
-                label: {
-                    Label("Clear all", systemImage: "minus.circle")
-                        .font(.largeTitle)
-                }
-                .buttonStyle(.bordered)
-                .accentColor(.red)
-                .controlSize(.large)
             }
         }
     }
-        
+    
     var cards: some View {
         LazyVGrid(columns: [GridItem()]) {
-                ForEach(viewModel.libraryItems) { card in
-                    CardView(card)
+            ForEach(viewModel.activeItems) { card in
+                    ActiveCardView(card)
                         .onTapGesture {
                             viewModel.toggleSelected(item: card)
                         }
@@ -50,7 +38,8 @@ struct ContentView: View {
     }
 }
 
-struct CardView: View {
+
+struct ActiveCardView: View {
     let content: ListFrogModel.ListFrogItem
     
     init(_ content: ListFrogModel.ListFrogItem) {
@@ -86,7 +75,6 @@ struct CardView: View {
 
 
 
-
 #Preview {
-    ContentView(viewModel: ListFrogViewModel())
+    ActiveView(viewModel: ListFrogViewModel())
 }

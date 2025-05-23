@@ -12,7 +12,7 @@ struct ListFrogApp: App {
     @StateObject var list = ListFrogViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: list)
+            MainView(listVM: list)
         }
     }
 }
