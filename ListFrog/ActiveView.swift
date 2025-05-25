@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ActiveView: View {
+    //Observed objects must never be instantiated here
+    //They must always be passed in because they have to
+    //be marked as state
     @ObservedObject var viewModel: ListFrogViewModel
     var body: some View {
         if viewModel.activeItems.isEmpty {
@@ -28,7 +31,7 @@ struct ActiveView: View {
     var cards: some View {
         LazyVGrid(columns: [GridItem()]) {
             ForEach(viewModel.activeItems) { card in
-                    ActiveCardView(card)
+                ActiveCardView(card: card)
                         .onTapGesture {
                             viewModel.toggleSelected(item: card)
                         }
@@ -40,11 +43,7 @@ struct ActiveView: View {
 
 
 struct ActiveCardView: View {
-    let content: ListFrogModel.ListFrogItem
-    
-    init(_ content: ListFrogModel.ListFrogItem) {
-        self.content = content
-    }
+    let card: ListFrogModel.ListFrogItem
     
     var body: some View {
         ZStack {
@@ -52,15 +51,15 @@ struct ActiveCardView: View {
             base.fill(Color(red: 0.9, green: 0.75, blue: 0.7))
             base.strokeBorder(lineWidth: 2)
             HStack {
-                Image(systemName: "checkmark.circle")
+                Image(systemName: "checkmark.circle.fill")
                     .resizable()
                     .frame(width: 50, height: 50)
                     .padding()
-                    .opacity(content.selected ? 0.8 : 0)
+                    .opacity(card.selected ? 0.8 : 0)
                 VStack (alignment: .leading){
-                    Text(content.caption)
+                    Text(card.caption)
                         .font(.largeTitle)
-                    Text(content.description)
+                    Text(card.description)
                         .opacity(0.8)
                 }
                 Spacer()

@@ -33,6 +33,9 @@ struct ListFrogModel {
     mutating func toggleActive(_ card: ListFrogItem){
         if let chosenIndex = cards.firstIndex(where: { $0.id == card.id}) {
             cards[chosenIndex].active.toggle()
+            if (!cards[chosenIndex].active) {
+                cards[chosenIndex].selected = false
+            }
         }
     }
 

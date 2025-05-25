@@ -17,17 +17,19 @@ struct LibraryView: View {
             }.font(.largeTitle)
         } else {
             VStack {
+                Text("Heading here")
                 ScrollView {
                     cards
                 }
+                Text("Input here")
             }
         }
     }
     
-    var cards: some View {
+    private var cards: some View {
         LazyVGrid(columns: [GridItem()]) {
             ForEach(viewModel.libraryItems) { card in
-                    LibraryCardView(card)
+                LibraryCardView(card: card)
                         .onTapGesture {
                             viewModel.toggleActive(item: card)
                         }
@@ -39,11 +41,7 @@ struct LibraryView: View {
 
 
 struct LibraryCardView: View {
-    let content: ListFrogModel.ListFrogItem
-    
-    init(_ content: ListFrogModel.ListFrogItem) {
-        self.content = content
-    }
+    let card: ListFrogModel.ListFrogItem
     
     var body: some View {
         ZStack {
@@ -55,11 +53,11 @@ struct LibraryCardView: View {
                     .resizable()
                     .frame(width: 50, height: 50)
                     .padding()
-                    .opacity(content.active ? 0.8 : 0)
+                    .opacity(card.active ? 0.8 : 0)
                 VStack (alignment: .leading){
-                    Text(content.caption)
+                    Text(card.caption)
                         .font(.largeTitle)
-                    Text(content.description)
+                    Text(card.description)
                         .opacity(0.8)
                 }
                 Spacer()
