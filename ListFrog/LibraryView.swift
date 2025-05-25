@@ -44,25 +44,10 @@ struct LibraryCardView: View {
     let card: ListFrogModel.ListFrogItem
     
     var body: some View {
-        ZStack {
-            let base = RoundedRectangle(cornerRadius: 12)
-            base.fill(Color(red: 0.9, green: 0.75, blue: 0.7))
-            base.strokeBorder(lineWidth: 2)
-            HStack {
-                Image(systemName: "checkmark.circle")
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .padding()
-                    .opacity(card.active ? 0.8 : 0)
-                VStack (alignment: .leading){
-                    Text(card.caption)
-                        .font(.largeTitle)
-                    Text(card.description)
-                        .opacity(0.8)
-                }
-                Spacer()
-            }
-        }
+        CardView(
+            card: card,
+            imageName: "checkmark.circle",
+            opacityFn: {card.active ? 0.8 : 0})
     }
 }
 
