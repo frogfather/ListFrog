@@ -17,6 +17,14 @@ class ListFrogViewModel: ObservableObject {
     
     @Published private var listModel: ListFrogModel = createList()
     
+    var searchTerm: String = "" {
+        didSet {
+            if searchTerm != oldValue {
+                print("Search term changed to \(searchTerm)")
+            }
+        }
+    }
+    
     var libraryItems: Array<ListFrogModel.ListFrogItem> {
         return listModel.cards
     }
@@ -34,6 +42,10 @@ class ListFrogViewModel: ObservableObject {
     }
     func toggleSelected(item: ListFrogModel.ListFrogItem) {
         listModel.toggleSelect(item)
+    }
+    
+    func searchFor(caption: String) {
+        listModel.setSearchTerm(input: caption)
     }
     
     func clearActive() {

@@ -9,9 +9,11 @@ import Foundation
 
 struct ListFrogModel {
     private(set) var cards: Array<ListFrogItem>
+    private(set) var searchTerm: String
     
     init(newItems: Array<ListFrogItem>) {
         cards = newItems
+        searchTerm = ""
     }
     
     init(itemNames: Array<String>) {
@@ -20,6 +22,7 @@ struct ListFrogModel {
             newItems.append(ListFrogItem(id: index, caption: value, description: value))
         }
         cards = newItems
+        searchTerm = ""
     }
     
     func addItem(item: ListFrogItem){
@@ -28,6 +31,10 @@ struct ListFrogModel {
     
     func removeItem(item: ListFrogItem){
         
+    }
+    
+    mutating func setSearchTerm(input: String) {
+        searchTerm = input
     }
     
     mutating func toggleActive(_ card: ListFrogItem){

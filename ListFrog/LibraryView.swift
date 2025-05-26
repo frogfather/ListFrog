@@ -21,7 +21,15 @@ struct LibraryView: View {
                 ScrollView {
                     cards
                 }
-                Text("Input here")
+                TextField(
+                    "Search or add item",
+                    text: $viewModel.searchTerm
+                )
+                .textInputAutocapitalization(.never)
+                .textFieldStyle(.roundedBorder)
+                .padding()
+                .background(.gray)
+                
             }
         }
     }
