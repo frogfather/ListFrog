@@ -10,33 +10,27 @@ import SwiftUI
 struct LibraryView: View {
     @ObservedObject var viewModel: ListFrogViewModel
     var body: some View {
-        if viewModel.libraryItems.isEmpty {
-            VStack {
-                Text("No items")
-                Text("Start typing to add an item")
-            }.font(.largeTitle)
-        } else {
-            VStack {
-                Text("Heading here")
-                ScrollView {
-                    cards
+        NavigationStack {
+            if viewModel.libraryItems.isEmpty {
+                VStack {
+                    Text("No items")
+                    Text("Start typing to add an item")
+                }.font(.largeTitle)
+            } else {
+                VStack {
+                    ScrollView {
+                        cards
+                    }
+                    Text("Search text \(viewModel.searchTerm)")
                 }
-                TextField(
-                    "Search or add item",
-                    text: $viewModel.searchTerm
-                )
-                .textInputAutocapitalization(.never)
-                .textFieldStyle(.roundedBorder)
-                .padding()
-                .background(.gray)
-                
             }
         }
+        .searchable(text: $viewModel.searchTerm)
     }
     
     private var cards: some View {
         LazyVGrid(columns: [GridItem()]) {
-            ForEach(viewModel.libraryItems) { card in
+            ForEach(viewModel.filteredItems) { card in
                 LibraryCardView(card: card)
                         .onTapGesture {
                             viewModel.toggleActive(item: card)

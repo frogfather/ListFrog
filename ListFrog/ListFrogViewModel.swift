@@ -21,6 +21,7 @@ class ListFrogViewModel: ObservableObject {
         didSet {
             if searchTerm != oldValue {
                 print("Search term changed to \(searchTerm)")
+                listModel.filterCards(searchTerm: searchTerm)
             }
         }
     }
@@ -31,6 +32,11 @@ class ListFrogViewModel: ObservableObject {
     var activeItems: Array<ListFrogModel.ListFrogItem> {
         return listModel.cards.filter({$0.active})
     }
+    
+    var filteredItems: Array<ListFrogModel.ListFrogItem> {
+        return listModel.filteredCards
+    }
+
     func addLibraryItem(item: ListFrogModel.ListFrogItem) {
         listModel.addItem(item: item)
     }
@@ -42,10 +48,6 @@ class ListFrogViewModel: ObservableObject {
     }
     func toggleSelected(item: ListFrogModel.ListFrogItem) {
         listModel.toggleSelect(item)
-    }
-    
-    func searchFor(caption: String) {
-        listModel.setSearchTerm(input: caption)
     }
     
     func clearActive() {
