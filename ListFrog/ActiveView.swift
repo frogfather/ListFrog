@@ -20,10 +20,8 @@ struct ActiveView: View {
                 Text("->")
             }.font(.largeTitle)
         } else {
-            VStack {
-                ScrollView {
-                    cards
-                }
+            ScrollView {
+                cards
             }
         }
     }

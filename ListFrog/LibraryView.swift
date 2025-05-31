@@ -17,11 +17,8 @@ struct LibraryView: View {
                     Text("Start typing to add an item")
                 }.font(.largeTitle)
             } else {
-                VStack {
-                    ScrollView {
-                        cards
-                    }
-                    Text("Search text \(viewModel.searchTerm)")
+                ScrollView {
+                    cards
                 }
             }
         }
