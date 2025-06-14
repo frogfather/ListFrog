@@ -11,27 +11,19 @@ struct LibraryView: View {
     @ObservedObject var viewModel: ListFrogViewModel
     var body: some View {
         NavigationStack {
-            if viewModel.libraryItems.isEmpty {
-                VStack {
-                    Text("No items")
-                    Text("Start typing to add an item")
-                }.font(.largeTitle)
-            } else {
-                ScrollView {
-                    cards
-                }.searchable(text: $viewModel.searchTerm)
-            }
-        }
+            cards
+        }.searchable(text: $viewModel.searchTerm)
     }
     
     private var cards: some View {
-        LazyVGrid(columns: [GridItem()]) {
-            ForEach(viewModel.filteredItems) { card in
+        List {
+            ForEach(viewModel.filteredItems) {
+                card in
                 LibraryCardView(card: card)
-                        .onTapGesture {
-                            viewModel.toggleActive(item: card)
-                        }
-                        .padding()
+                    .onTapGesture {
+                        viewModel.toggleActive(item: card)
+                    }
+                    .padding()
             }
         }
     }

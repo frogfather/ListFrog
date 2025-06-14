@@ -37,6 +37,7 @@ class ListFrogViewModel: ObservableObject {
         listModel.removeItem(item: item)
     }
     func toggleActive(item: ListFrogModel.ListFrogItem) {
+        print("Toggle active \(item)")
         listModel.toggleActive(item)
     }
     func toggleSelected(item: ListFrogModel.ListFrogItem) {
