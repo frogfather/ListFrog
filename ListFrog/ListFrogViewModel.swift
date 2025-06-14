@@ -16,15 +16,7 @@ class ListFrogViewModel: ObservableObject {
     }
     
     @Published private var listModel: ListFrogModel = createList()
-    
-    var searchTerm: String = "" {
-        didSet {
-            if searchTerm != oldValue {
-                print("Search term changed to \(searchTerm)")
-                listModel.filterCards(searchTerm: searchTerm)
-            }
-        }
-    }
+    @Published var searchTerm: String = "" 
     
     var libraryItems: Array<ListFrogModel.ListFrogItem> {
         return listModel.cards
@@ -34,7 +26,8 @@ class ListFrogViewModel: ObservableObject {
     }
     
     var filteredItems: Array<ListFrogModel.ListFrogItem> {
-        return listModel.filteredCards
+        let trimmedSearchTerm = searchTerm.trimmingCharacters(in: .whitespaces).lowercased()
+        return listModel.cards.filter({$0.caption.lowercased().starts(with: trimmedSearchTerm)})
     }
 
     func addLibraryItem(item: ListFrogModel.ListFrogItem) {

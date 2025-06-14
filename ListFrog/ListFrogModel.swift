@@ -9,10 +9,8 @@ import Foundation
 
 struct ListFrogModel {
     private(set) var cards: Array<ListFrogItem>
-    private(set) var filteredCards: Array<ListFrogItem>
     init(newItems: Array<ListFrogItem>) {
         cards = newItems
-        filteredCards = newItems
     }
     
     init(itemNames: Array<String>) {
@@ -21,7 +19,6 @@ struct ListFrogModel {
             newItems.append(ListFrogItem(id: index, caption: value, description: "desc \(value)"))
         }
         cards = newItems
-        filteredCards = newItems
     }
     
     func addItem(item: ListFrogItem){
@@ -30,13 +27,6 @@ struct ListFrogModel {
     
     func removeItem(item: ListFrogItem){
         
-    }
-    
-    mutating func filterCards(searchTerm: String) {
-        let trimmedSearchTerm = searchTerm.trimmingCharacters(in: .whitespaces)
-        filteredCards = trimmedSearchTerm == ""
-            ? cards
-        : cards.filter({$0.caption.localizedStandardContains(trimmedSearchTerm) || $0.description.localizedStandardContains(trimmedSearchTerm)})
     }
     
     mutating func toggleActive(_ card: ListFrogItem){
