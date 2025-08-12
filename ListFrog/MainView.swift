@@ -11,8 +11,12 @@ struct MainView: View {
     var listVM: ListFrogViewModel
     var body: some View {
         TabView {
-            ActiveView(viewModel: listVM)
-            LibraryView(viewModel: listVM)
+            Tab("Active", systemImage: "house") {
+                ActiveView(viewModel: listVM)
+                }
+            Tab("All items", systemImage: "gear") {
+                LibraryView(viewModel: listVM)
+                }
         }
         .tabViewStyle(.page(indexDisplayMode: .always))
     }
